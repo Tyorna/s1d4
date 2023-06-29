@@ -11,10 +11,28 @@ public class Dipendente {
 	
 	public Dipendente(int matricola, double importoOraStra, Livello type, Dipartimento tipo) {
 		this.matricola = matricola;
-		this.stipendio = calcStipendio(this.livello);
+		this.stipendio = this.stipendioBase;
 		this.importoOraStra = importoOraStra;
 		this.livello = type;
 		this.dipartimento = tipo;
+
+		switch (this.livello) {
+		case OPERAIO: {
+			this.stipendio = (this.stipendioBase * 1.2);
+			break;
+		}
+		case IMPIEGATO: {
+			this.stipendio = (this.stipendioBase * 1.5);
+			break;
+		}
+		case DIRIGENTE: {
+			this.stipendio = (this.stipendioBase * 2);
+			break;
+		}
+		default:
+			this.stipendio = this.stipendioBase;
+			break;
+		}
 	}
 	
 	public Dipendente(int matricola, Dipartimento tipo ) {
@@ -25,17 +43,6 @@ public class Dipendente {
 		this.livello = Livello.OPERAIO;
 	}
 	
-	public double calcStipendio(Livello liv) {
-		if (liv == Livello.IMPIEGATO) {
-			return this.stipendio = this.stipendioBase * 1.2;
-		} else if (liv == Livello.QUADRO) {
-			return this.stipendio = this.stipendioBase * 1.5;
-		} else if (liv == Livello.DIRIGENTE) {
-			return this.stipendio = this.stipendioBase * 2;
-		}
-		return this.stipendio = this.stipendioBase;
-	}
-
 	//Get
 
 	public double getStipendioBase() {
@@ -113,9 +120,9 @@ public class Dipendente {
 	public static double calcolaPaga(Dipendente d) {
 		return d.stipendio;
 	}
-//
-//	public static double calcolaPaga(Dipendente d, int ore) {
-//		return d.stipendio;
-//	}
+
+	public static double calcolaPaga(Dipendente d, int ore) {
+		return d.stipendio + (d.importoOraStra * ore);
+	}
 	
 }
